@@ -2,59 +2,26 @@
 #include <string>
 #include <functional>
 #include "HybridArray.h"
+#include <gtest/gtest.h>  // Google Test header for assertions
 
-// TestRunner class for organizing tests
-class TestRunner {
-public:
-    void addTest(const std::string& testName, std::function<void()> testFunc) {
-        tests.push_back({testName, testFunc});
-    }
-
-    void run() {
-        int passedTests = 0;
-        for (const auto& test : tests) {
-            try {
-                test.second();
-                std::cout << test.first << " PASSED\n";
-                passedTests++;
-            } catch (const std::exception& e) {
-                std::cout << test.first << " FAILED: " << e.what() << "\n";
-            }
-        }
-        std::cout << "Tests passed: " << passedTests << "/" << tests.size() << "\n";
-    }
-
-private:
-    std::vector<std::pair<std::string, std::function<void()>>> tests;  // Correctly declare tests here
-};
-
-#define TEST_CASE(name) \
-    runner.addTest(#name, name)
-
-void testPushBackAndSize() {
+// Test case for PushBackAndSize functionality
+TEST(HybridArrayTests, testPushBackAndSize) {
     HybridArray<int> arr;
     arr.push_back(10);
     arr.push_back(20);
 
-    if (arr.size() != 2) throw std::runtime_error("Size mismatch");
+    EXPECT_EQ(arr.size(), 2);  // Use Google Test's EXPECT_EQ for assertions
 }
 
-void testGetElement() {
+// Test case for GetElement functionality
+TEST(HybridArrayTests, testGetElement) {
     HybridArray<int> arr;
     arr.push_back(10);
 
-    if (arr.get(0) != 10) throw std::runtime_error("Element mismatch");
+    EXPECT_EQ(arr.get(0), 10);  // Use Google Test's EXPECT_EQ for assertions
 }
 
-int main() {
-    TestRunner runner;
-
-    // Add tests to the runner using the corrected TEST_CASE macro
-    TEST_CASE(testPushBackAndSize);
-    TEST_CASE(testGetElement);
-
-    // Run all tests
-    runner.run();
-
-    return 0;
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);  // Initialize Google Test
+    return RUN_ALL_TESTS();  // Run all tests
 }
