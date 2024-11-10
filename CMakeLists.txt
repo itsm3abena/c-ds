@@ -1,13 +1,25 @@
-# CMakeLists.txt
 cmake_minimum_required(VERSION 3.10)
+
 project(HybridArrayLib)
 
-# Set up the library
-add_library(HybridArrayLib STATIC src/Array.cpp)
+set(CMAKE_CXX_STANDARD 17)
 
-# Include directories
-target_include_directories(HybridArrayLib PUBLIC include)
+# Specify include directories
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
-# Create an executable for testing the library
-add_executable(HybridArrayExample main.cpp)
-target_link_libraries(HybridArrayExample PRIVATE HybridArrayLib)
+# Add source files to the library
+add_library(HybridArray STATIC
+    src/HybridArray.cpp
+)
+
+# Add your test executable
+add_executable(runTests tests/TestHybridArray.cpp)
+
+# Link the executable with the HybridArray library
+target_link_libraries(runTests HybridArray)
+
+# Add the example program
+add_executable(example example.cpp)
+
+# Link the HybridArray library
+target_link_libraries(example HybridArray)
