@@ -1,27 +1,39 @@
-name: Makefile CI
+name: CI Build and Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  build:
-
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: configure
-      run: ./configure
+      # Set up GCC and make
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y build-essential
 
-    - name: Install dependencies
-      run: make
+      # Debug build
+      - name: Build in debug mode
+        run: |
+          make clean
+          make debug
+      
+      # Release build
+      - name: Build in release mode
+        run: |
+          make clean
+          make release
 
-    - name: Run check
-      run: make check
-
-    - name: Run distcheck
-      run: make distcheck
+      # Run tests
+      - name: Run tests
+        run: |
+          ./debug/exefile
