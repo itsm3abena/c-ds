@@ -102,31 +102,78 @@ int main() {
 
 
 ```
-Compile the above code with the following command:
+##Building the Project
 
-```bash
-gcc -std=c99 example.c -o example -L/path/to/HybridArray/lib -I/path/to/HybridArray/include
-```
+Debug Build
 
-Make sure to replace /path/to/HybridArray/lib and /path/to/HybridArray/include with the appropriate paths to the library files on your system.
-Running Tests
+To build the project with debug symbols and debug logs enabled:
 
-The HybridArray library comes with a set of unit tests to ensure its functionality. To run the tests:
 ```
-cd build
-```
-```
-cmake -DBUILD_TESTS=ON ..
-```
-```
-make
+make debug
 ```
 
-Run the tests:
+This will:
 
-```bash
-./runTests
+    Compile the project with debugging flags (-g -O0 -DDEBUG).
+    Generate the executable at debug/exefile.
+
+Release Build
+
+To build an optimized release version without debug logs:
 ```
+make release
+```
+This will:
+
+    Compile the project with optimization flags (-O3 -DNDEBUG).
+    Generate the executable at release/exefile.
+
+Cleaning the Build
+
+To remove all generated files (object files, executables, etc.):
+```
+make clean
+```
+Rebuild
+
+To clean and rebuild the project from scratch:
+```
+make remake
+```
+Running the Project
+Debug Mode
+
+Run the debug executable to see debug messages and memory management logs:
+```
+./debug/exefile
+```
+Release Mode
+
+Run the release executable for optimized performance:
+```
+./release/exefile
+```
+Debugging
+
+To debug the project using gdb, first ensure you’ve built the debug version:
+
+    Build with make debug.
+    Run gdb:
+```
+    gdb ./debug/exefile
+```
+    Inside gdb, use commands like:
+        run to start the program.
+        break <function> to set breakpoints.
+        step or next to step through the code.
+        quit to exit the debugger.
+
+Notes
+
+    Debug builds include additional debug logs for memory allocations, reallocations, and deallocations.
+    The project uses custom memory tracking to detect potential memory leaks.
+    Ensure all tests pass and no memory leaks are reported after running the executable.
+
 
 This will execute all the unit tests and provide a summary of the test results.
 Contributing
