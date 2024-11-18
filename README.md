@@ -1,8 +1,8 @@
-# HybridArray - A C++ Library for Hybrid Arrays
+# HybridArray - A C Library for Hybrid Arrays
 
 ## Overview
 
-`HybridArray` is a C++ library that implements a high-performance hybrid array structure designed for various use cases where dynamic resizing and memory efficiency are critical. It combines the best features of both static and dynamic arrays, providing the flexibility of a dynamically resizable array while maintaining high performance and low memory overhead.
+`HybridArray` is a C library that implements a high-performance hybrid array structure designed for various use cases where dynamic resizing and memory efficiency are critical. It combines the best features of both static and dynamic arrays, providing the flexibility of a dynamically resizable array while maintaining high performance and low memory overhead.
 
 This library supports efficient memory management, fast access times, and provides an intuitive API for developers to work with arrays of arbitrary sizes. It's designed to be used in both small and large-scale applications, ranging from system-level programming to high-performance applications.
 
@@ -19,7 +19,6 @@ This library supports efficient memory management, fast access times, and provid
 
 Before installing `HybridArray`, ensure that you have the following dependencies installed on your system:
 
-- **C++17 Compiler** (GCC 7.0+ or Clang 5.0+ recommended)
 - **CMake** (version 3.10 or higher)
 - **Make** or another build system (e.g., Ninja)
 
@@ -30,8 +29,9 @@ Before installing `HybridArray`, ensure that you have the following dependencies
 First, clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/hybrid-array-cpp.git
-cd hybrid-array-cpp
+git clone https://github.com/your-username/hybrid-array-c.git
+cd hybrid-array-c
+
 ```
 2. Build the Library
 
@@ -71,34 +71,41 @@ Usage
 After building and installing the library, you can start using HybridArray in your C++ projects. Below is an example of how to use the HybridArray class:
 Example
 
-```cpp
-
+```c
 #include "HybridArray.h"
-#include <iostream>
+#include <stdio.h>
 
 int main() {
     // Create a HybridArray of integers
-    HybridArray<int> arr;
+    HybridArray arr;
+    
+    // Initialize the array
+    HybridArray_init(&arr, 10);  // Start with space for 10 elements
 
     // Add some elements
-    arr.push_back(10);
-    arr.push_back(20);
-    arr.push_back(30);
+    HybridArray_push_back(&arr, 10);
+    HybridArray_push_back(&arr, 20);
+    HybridArray_push_back(&arr, 30);
 
     // Access and print elements
-    std::cout << "First element: " << arr[0] << std::endl;
-    std::cout << "Second element: " << arr[1] << std::endl;
+    printf("First element: %d\n", HybridArray_get(&arr, 0));
+    printf("Second element: %d\n", HybridArray_get(&arr, 1));
 
     // Check the size
-    std::cout << "Size of the array: " << arr.size() << std::endl;
+    printf("Size of the array: %zu\n", HybridArray_size(&arr));
 
+    // Clean up
+    HybridArray_free(&arr);
+    
     return 0;
 }
+
+
 ```
 Compile the above code with the following command:
 
 ```bash
-g++ -std=c++17 example.cpp -o example -L/path/to/HybridArray/lib -I/path/to/HybridArray/include
+gcc -std=c99 example.c -o example -L/path/to/HybridArray/lib -I/path/to/HybridArray/include
 ```
 
 Make sure to replace /path/to/HybridArray/lib and /path/to/HybridArray/include with the appropriate paths to the library files on your system.
