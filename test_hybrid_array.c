@@ -1,59 +1,44 @@
+#include "ds.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include "hybrid_array.h"
-#include "memory_manager.h"
-
-
-void run_basic_tests() {
-    HybridArray array;
-
-    hybrid_array_init(&array);
-
-    printf("Adding elements to the array...\n");
-    for (int i = 1; i <= 100; ++i) {
-        hybrid_array_push_back(&array, i);
-    }
-
-    printf("Array contents: ");
-    hybrid_array_print(&array);
-
-    printf("\nTesting random element access...\n");
-    int num_tests = 10;
-    for (int i = 0; i < num_tests; ++i) {
-        int random_index = rand() % array.size;
-        int element = hybrid_array_get(&array, random_index);
-
-        printf("Element at random index %d: %d (Expected: %d)\n", random_index, element, random_index + 1);
-    }
-
-    int first_element = hybrid_array_get(&array, 0);
-    int last_element = hybrid_array_get(&array, array.size - 1);
-    if (first_element != -1) {
-        printf("First element: %d (Expected: 0)\n", first_element);
-    }
-    if (last_element != -1) {
-        printf("Last element: %d (Expected: 99)\n", last_element);
-    }
-
-
-    int invalid_index = 20;
-    int result = hybrid_array_get(&array, invalid_index);
-    if (result == -1) {
-        printf("Out-of-bounds access for index %d.\n", invalid_index);
-    } else {
-        printf("Element at index %d: %d\n", invalid_index, result);
-    }
-
-    hybrid_array_destroy(&array);
-    
-    check_memory_leaks();
-
-}
 
 int main() {
-    printf("Running basic tests...\n");
-    run_basic_tests();
+    HybridArray array;
+    hybrid_array_init(&array);
+
+    hybrid_array_push_back(&array, 10);
+    hybrid_array_push_back(&array, 20);
+    hybrid_array_push_back(&array, 30);
+
+    hybrid_array_print(&array);
+
+    printf("Element at index 0: %d\n", hybrid_array_get(&array, 0));
+    printf("Element at index 1: %d\n", hybrid_array_get(&array, 1));
+
+    hybrid_array_destroy(&array);
+
+    printf("\n=== Hashmap Example ===\n");
+
+    Hashmap *map = hashmap_create(10);
     
+    int value1 = 42;
+    double value2 = 3.14;
+    char *value3 = "Hello";
+
+    hashmap_insert(map, "key1", &value1);
+    hashmap_insert(map, "key2", &value2);
+    hashmap_insert(map, "key3", value3);
+
+    hashmap_print(map);
+
+    printf("Value for 'key1': %d\n", *(int *)hashmap_get(map, "key1"));
+    printf("Value for 'key2': %.2f\n", *(double *)hashmap_get(map, "key2"));
+    printf("Value for 'key3': %s\n", (char *)hashmap_get(map, "key3"));
+
+    hashmap_remove(map, "key2");
+    printf("\nAfter removing 'key2':\n");
+    hashmap_print(map);
+
+    hashmap_destroy(map);
+
     return 0;
 }
