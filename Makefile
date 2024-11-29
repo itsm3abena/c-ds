@@ -7,7 +7,8 @@ CFLAGS = -Wall -Werror -Wextra
 #
 # Project files
 #
-SRCS = hybrid_array.c memory_manager.c test_hybrid_array.c
+SRCS = test_hybrid_array.c
+HEADERS = ds.h
 OBJS = $(SRCS:.c=.o)
 EXE  = exefile
 
@@ -40,7 +41,7 @@ debug: $(DBGEXE)
 $(DBGEXE): $(DBGOBJS)
 	$(CC) $(CFLAGS) $(DBGCFLAGS) -o $(DBGEXE) $^
 
-$(DBGDIR)/%.o: %.c
+$(DBGDIR)/%.o: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $(DBGCFLAGS) -o $@ $<
 
 #
@@ -51,7 +52,7 @@ release: $(RELEXE)
 $(RELEXE): $(RELOBJS)
 	$(CC) $(CFLAGS) $(RELCFLAGS) -o $(RELEXE) $^
 
-$(RELDIR)/%.o: %.c
+$(RELDIR)/%.o: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $(RELCFLAGS) -o $@ $<
 
 #
