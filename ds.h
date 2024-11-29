@@ -60,20 +60,20 @@ void hybrid_array_print(const HybridArray *array) {
 typedef struct HashmapEntry {
     char *key;
     void *value;
-    struct HashmapEntry *next; // For collision handling (chaining)
+    struct HashmapEntry *next; 
 } HashmapEntry;
 
 typedef struct {
-    HashmapEntry **buckets; // Array of pointers to entries
-    size_t size;            // Number of buckets
-    size_t count;           // Number of elements in the hashmap
+    HashmapEntry **buckets; 
+    size_t size;            
+    size_t count;           
 } Hashmap;
 
 static unsigned long hash(const char *str) {
     unsigned long hash = 5381;
     int c;
     while ((c = *str++)) {
-        hash = ((hash << 5) + hash) + c; // hash * 33 + c
+        hash = ((hash << 5) + hash) + c; 
     }
     return hash;
 }
@@ -131,7 +131,7 @@ void *hashmap_get(Hashmap *map, const char *key) {
         }
         entry = entry->next;
     }
-    return NULL; // Key not found
+    return NULL;
 }
 
 bool hashmap_remove(Hashmap *map, const char *key) {
@@ -154,7 +154,7 @@ bool hashmap_remove(Hashmap *map, const char *key) {
         prev = entry;
         entry = entry->next;
     }
-    return false; // Key not found
+    return false;
 }
 
 void hashmap_print(Hashmap *map) {
@@ -172,4 +172,4 @@ void hashmap_print(Hashmap *map) {
     }
 }
 
-#endif // DATA_STRUCTURES_H
+#endif 
