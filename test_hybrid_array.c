@@ -2,6 +2,8 @@
 #include <stdio.h>
 
 int main() {
+    printf("\n=== Dynamic Example ===\n");
+
     HybridArray array;
     hybrid_array_init(&array);
 
@@ -39,6 +41,21 @@ int main() {
     hashmap_print(map);
 
     hashmap_destroy(map);
+
+    printf("\n=== Linked List Example ===\n");
+
+    Node* head = NULL;
+
+    insertAtHead(&head, 10);
+    insertAtHead(&head, 20);
+    insertAtTail(&head, 30);
+
+    printList(head);
+
+    deleteNode(&head, 20);
+    printList(head);
+
+    freeList(head);
 
     return 0;
 }
