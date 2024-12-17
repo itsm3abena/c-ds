@@ -15,12 +15,23 @@ typedef struct {
     size_t capacity;
 } HybridArray;
 
+/**
+ * @brief Initializes a HybridArray structure.
+ * 
+ * @param array Pointer to the HybridArray to initialize.
+ */
 void hybrid_array_init(HybridArray *array) {
     array->data = NULL;
     array->size = 0;
     array->capacity = 0;
 }
 
+/**
+ * @brief Adds a value to the end of the HybridArray.
+ * 
+ * @param array Pointer to the HybridArray.
+ * @param value The integer value to add to the array.
+ */
 void hybrid_array_push_back(HybridArray *array, int value) {
     if (array->capacity == 0) {
         array->capacity = 10;
@@ -32,6 +43,14 @@ void hybrid_array_push_back(HybridArray *array, int value) {
     array->data[array->size++] = value;
 }
 
+/**
+ * @brief Retrieves the value at a specific index in the HybridArray.
+ * 
+ * @param array Pointer to the HybridArray.
+ * @param index The index of the value to retrieve.
+ * @return The integer value at the specified index.
+ * @note Exits the program if the index is out of bounds.
+ */
 int hybrid_array_get(const HybridArray *array, size_t index) {
     if (index >= array->size) {
         fprintf(stderr, "Index out of bounds: %zu\n", index);
@@ -40,6 +59,11 @@ int hybrid_array_get(const HybridArray *array, size_t index) {
     return array->data[index];
 }
 
+/**
+ * @brief Frees the memory used by the HybridArray.
+ * 
+ * @param array Pointer to the HybridArray to destroy.
+ */
 void hybrid_array_destroy(HybridArray *array) {
     free(array->data);
     array->data = NULL;
@@ -47,6 +71,11 @@ void hybrid_array_destroy(HybridArray *array) {
     array->capacity = 0;
 }
 
+/**
+ * @brief Prints the contents of the HybridArray.
+ * 
+ * @param array Pointer to the HybridArray.
+ */
 void hybrid_array_print(const HybridArray *array) {
     for (size_t i = 0; i < array->size; i++) {
         printf("%d ", array->data[i]);
@@ -78,6 +107,12 @@ static unsigned long hash(const char *str) {
     return hash;
 }
 
+/**
+ * @brief Creates a new hashmap.
+ * 
+ * @param size The number of buckets in the hashmap.
+ * @return Pointer to the newly created Hashmap, or NULL if memory allocation fails.
+ */
 Hashmap *hashmap_create(size_t size) {
     Hashmap *map = malloc(sizeof(Hashmap));
     if (!map) return NULL;
@@ -91,6 +126,11 @@ Hashmap *hashmap_create(size_t size) {
     return map;
 }
 
+/**
+ * @brief Frees the memory used by the hashmap.
+ * 
+ * @param map Pointer to the Hashmap to destroy.
+ */
 void hashmap_destroy(Hashmap *map) {
     for (size_t i = 0; i < map->size; i++) {
         HashmapEntry *entry = map->buckets[i];
@@ -105,6 +145,14 @@ void hashmap_destroy(Hashmap *map) {
     free(map);
 }
 
+/**
+ * @brief Inserts a key-value pair into the hashmap.
+ * 
+ * @param map Pointer to the Hashmap.
+ * @param key The string key for the entry.
+ * @param value Pointer to the value associated with the key.
+ * @return True if insertion was successful, false otherwise.
+ */
 bool hashmap_insert(Hashmap *map, const char *key, void *value) {
     unsigned long hash_value = hash(key) % map->size;
     HashmapEntry *new_entry = malloc(sizeof(HashmapEntry));
@@ -122,6 +170,13 @@ bool hashmap_insert(Hashmap *map, const char *key, void *value) {
     return true;
 }
 
+/**
+ * @brief Retrieves a value associated with a key in the hashmap.
+ * 
+ * @param map Pointer to the Hashmap.
+ * @param key The string key to look up.
+ * @return Pointer to the value associated with the key, or NULL if the key is not found.
+ */
 void *hashmap_get(Hashmap *map, const char *key) {
     unsigned long hash_value = hash(key) % map->size;
     HashmapEntry *entry = map->buckets[hash_value];
@@ -134,6 +189,13 @@ void *hashmap_get(Hashmap *map, const char *key) {
     return NULL;
 }
 
+/**
+ * @brief Removes a key-value pair from the hashmap.
+ * 
+ * @param map Pointer to the Hashmap.
+ * @param key The string key to remove.
+ * @return True if the key was successfully removed, false if the key was not found.
+ */
 bool hashmap_remove(Hashmap *map, const char *key) {
     unsigned long hash_value = hash(key) % map->size;
     HashmapEntry *entry = map->buckets[hash_value];
@@ -157,6 +219,11 @@ bool hashmap_remove(Hashmap *map, const char *key) {
     return false;
 }
 
+/**
+ * @brief Prints the contents of the hashmap.
+ * 
+ * @param map Pointer to the Hashmap.
+ */
 void hashmap_print(Hashmap *map) {
     printf("Hashmap contents:\n");
     for (size_t i = 0; i < map->size; i++) {
@@ -181,6 +248,12 @@ typedef struct Node {
     struct Node* next;
 } Node;
 
+/**
+ * @brief Creates a new node with the given data.
+ * 
+ * @param data The integer data for the new node.
+ * @return Pointer to the newly created node, or NULL if memory allocation fails.
+ */
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (!newNode) {
@@ -192,6 +265,12 @@ Node* createNode(int data) {
     return newNode;
 }
 
+/**
+ * @brief Inserts a new node with the given data at the head of the list.
+ * 
+ * @param head Pointer to the pointer to the head of the list.
+ * @param data The integer data to insert.
+ */
 void insertAtHead(Node** head, int data) {
     Node* newNode = createNode(data);
     if (!newNode) return;
@@ -199,6 +278,12 @@ void insertAtHead(Node** head, int data) {
     *head = newNode;
 }
 
+/**
+ * @brief Inserts a new node with the given data at the tail of the list.
+ * 
+ * @param head Pointer to the pointer to the head of the list.
+ * @param data The integer data to insert.
+ */
 void insertAtTail(Node** head, int data) {
     Node* newNode = createNode(data);
     if (!newNode) return;
@@ -215,6 +300,12 @@ void insertAtTail(Node** head, int data) {
     temp->next = newNode;
 }
 
+/**
+ * @brief Deletes the first node with the given data value.
+ * 
+ * @param head Pointer to the pointer to the head of the list.
+ * @param data The integer value to delete from the list.
+ */
 void deleteNode(Node** head, int data) {
     if (*head == NULL) return;
 
@@ -237,6 +328,13 @@ void deleteNode(Node** head, int data) {
     free(temp);
 }
 
+/**
+ * @brief Searches for a node with the specified data.
+ * 
+ * @param head Pointer to the head of the list.
+ * @param data The integer value to search for.
+ * @return Pointer to the node containing the data, or NULL if not found.
+ */
 Node* search(Node* head, int data) {
     Node* temp = head;
     while (temp != NULL) {
@@ -248,6 +346,11 @@ Node* search(Node* head, int data) {
     return NULL;
 }
 
+/**
+ * @brief Prints the contents of the linked list.
+ * 
+ * @param head Pointer to the head of the list.
+ */
 void printList(Node* head) {
     Node* temp = head;
     while (temp != NULL) {
@@ -257,6 +360,11 @@ void printList(Node* head) {
     printf("NULL\n");
 }
 
+/**
+ * @brief Frees the memory allocated for the linked list.
+ * 
+ * @param head Pointer to the head of the list.
+ */
 void freeList(Node* head) {
     Node* temp;
     while (head != NULL) {
