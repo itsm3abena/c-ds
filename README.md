@@ -149,7 +149,7 @@ Efficient Implementations: Optimized for performance and memory usage.
 Reusable: Designed for use in various applications without modifications.
 
 ## License
-This project is released under the MIT License, allowing you to use, modify, and distribute it freely. See the [LICENSE](https://github.com/itsm3abena/c-ds/blob/main/LICENSE) file for more details.
+This project is released under the MIT License. See the [LICENSE](https://github.com/itsm3abena/c-ds/blob/main/LICENSE) file for more details.
 Contributing
 
 We welcome contributions! To improve the library, fix bugs, or add new features:
