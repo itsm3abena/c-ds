@@ -122,6 +122,84 @@ int main() {
 
 ```
 
+## Binary Search Tree (BST)
+
+A simple integer BST with fast insert/search/delete.
+Supported Operations:
+
+- bst_insert – Insert a value
+
+- bst_search – Check if a value exists
+
+- bst_delete – Delete a value (returns the new root)
+
+- bst_inorder_print – Display the tree in sorted order
+
+- bst_free – Release memory used by the tree
+
+Example: BST Usage
+```c
+#include "tree.h"
+int main(void) {
+    BST *t = bst_create(cmp_str, free, free);
+    if (!t) return 1;
+
+    bst_insert(t, strdup("name"), strdup("Abena"));
+    bst_insert(t, strdup("city"), strdup("Addis Ababa"));
+    bst_insert(t, strdup("role"), strdup("C dev"));
+    bst_insert(t, strdup("city"), strdup("Accra"));
+
+    printf("role: %s\n", (char*)bst_get(t, "role"));
+    printf("size before delete: %zu\n", bst_size(t));
+    bst_remove(t, "name");
+    printf("size after delete: %zu\n\n", bst_size(t));
+
+    puts("In-order traversal:");
+    bst_inorder(t, visit_print, NULL);
+
+    bst_destroy(t);
+    return 0;
+}
+```
+
+## Trie
+
+A prefix tree for lowercase a–z words (other characters are ignored).
+Supported Operations:
+
+- trie_insert – Insert a word
+
+- trie_search – Check if a word exists
+
+- trie_starts_with – Check if any word has the given prefix
+
+- trie_delete – Remove a word and prune unused nodes
+
+- trie_free – Release memory used by the trie
+
+Example: Trie Usage
+```c
+#include "trie.h"
+
+int main(void) {
+    Trie *tr = trie_create(free);
+
+    trie_insert(tr, "hello", strdup("world"));
+    trie_insert(tr, "help",  strdup("me"));
+    trie_insert(tr, "helium",strdup("gas"));
+
+    printf("contains 'help'? %s\n", trie_contains(tr, "help") ? "yes" : "no");
+    printf("starts_with 'he'? %s\n", trie_starts_with(tr, "he") ? "yes" : "no");
+    printf("value at 'hello': %s\n", (char*)trie_get(tr, "hello"));
+
+    trie_remove(tr, "help");
+    printf("contains 'help' after remove? %s\n", trie_contains(tr, "help") ? "yes" : "no");
+    printf("trie size: %zu\n", trie_size(tr));
+
+    trie_destroy(tr);
+    return 0;
+}
+```
 
 ## How to Use
 1. Include the Header
